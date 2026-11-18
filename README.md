@@ -29,6 +29,13 @@ The fourth is by hand: each lab's README has a **Walkthrough: copy, paste, compa
 | Module 1: Core infrastructure and CNI | [Lab 1.4: Linux tools on a node (ip, iptables, tcpdump)](labs/m01/1.4-linux-tools/) |
 | Module 1: Core infrastructure and CNI | [Lab 1.5: Troubleshooting pod connectivity and DNS](labs/m01/1.5-troubleshoot/) |
 | Module 1: Core infrastructure and CNI | [Lab 1.6: Multi-interface pods with Multus](labs/m01/1.6-multus/) |
+| Module 2: Service networking and DNS | [Lab 2.1: L4 Services: ClusterIP, NodePort, LoadBalancer, ExternalName](labs/m02/2.1-services/) |
+| Module 2: Service networking and DNS | [Lab 2.2: kube-proxy: iptables and nftables rules, read on a node](labs/m02/2.2-kube-proxy/) |
+| Module 2: Service networking and DNS | [Lab 2.3: Replacing kube-proxy with Cilium](labs/m02/2.3-cilium-kpr/) |
+| Module 2: Service networking and DNS | [Lab 2.4: Customising CoreDNS: stub domains and forwarders](labs/m02/2.4-coredns/) |
+| Module 2: Service networking and DNS | [Lab 2.5: Endpoint availability: readiness and EndpointSlice conditions](labs/m02/2.5-endpointslices/) |
+| Module 2: Service networking and DNS | [Lab 2.6: Troubleshooting Service traffic](labs/m02/2.6-troubleshoot-services/) |
+| Module 2: Service networking and DNS | [Lab 2.7: Gateway API: Gateway and HTTPRoute](labs/m02/2.7-gateway-api/) |
 
 ## What you need
 

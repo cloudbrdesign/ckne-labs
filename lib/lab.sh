@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Shared lab framework for the CKNE labs. A lab defines:
-#   LAB_ID, LAB_TITLE, CLUSTER_PROFILE (plain | nocni | cilium | full)
+#   LAB_ID, LAB_TITLE, CLUSTER_PROFILE (plain | nft | nocni | cilium | full)
 #   step_1 .. step_N   (each starts with: title "what this step does")
 #   check_1 .. check_M (each calls: expect "description" <command...>)
 # and ends with:  lab_main "$@"
@@ -16,6 +16,7 @@ k(){ kubectl --context "$CTX" "$@"; }
 title(){ printf '\n%s== %s%s\n' "$B" "$*" "$N"; }
 note(){ printf '%s%s%s\n' "$D" "$*" "$N"; }
 run(){ printf '%s$ %s%s\n' "$Y" "$(printf '%s ' "$@" | sed 's/^k /kubectl /')" "$N"; "$@"; }
+runp(){ printf '%s$ %s%s\n' "$Y" "$1" "$N"; eval "${1//kubectl /k }"; }   # a pipeline, shown as typed: runp "kubectl get pods | grep web"
 node_sh(){ docker exec "$1" sh -c "$2"; }            # "ssh" into a kind node: node_sh ckne-worker 'ip route'
 PASS=0; FAIL=0
 expect(){ local what=$1; shift; if "$@" >/dev/null 2>&1; then printf '%sPASS%s  %s\n' "$G" "$N" "$what"; PASS=$((PASS+1)); else printf '%sFAIL%s  %s\n' "$R" "$N" "$what"; FAIL=$((FAIL+1)); fi; }
@@ -27,7 +28,7 @@ need(){ for t in docker kind kubectl helm jq; do command -v "$t" >/dev/null || {
 
 kind_config(){ # $1 profile
   local cni="false" kp="iptables"
-  case "$1" in nocni) cni=true ;; cilium|full) cni=true; kp=none ;; plain) ;; esac
+  case "$1" in nocni) cni=true ;; nft) kp=nftables ;; cilium|full) cni=true; kp=none ;; plain) ;; esac
   cat <<K
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
