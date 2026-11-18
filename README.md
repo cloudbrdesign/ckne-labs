@@ -4,7 +4,9 @@ Lab files for the Cloud Brewery Academy course **CKNE Exam Prep: Kubernetes Netw
 
 **Tested on Ubuntu 24.04 and on an Apple silicon Mac.** Other systems may work, but we haven't tested them.
 
-## Every lab, three ways
+## Every lab, four ways
+
+The first three use the lab's script:
 
 ```bash
 bash lab.sh run       # a fresh cluster, every step, then the check
@@ -14,6 +16,8 @@ bash lab.sh down      # delete the cluster
 ```
 
 `bash run-all.sh labs/m01/1.2-cni labs/m01/1.3-ipam` runs several labs in a row and prints a summary.
+
+The fourth is by hand: each lab's README has a **Walkthrough: copy, paste, compare** section. Every step has a short explanation, the commands as plain `kubectl` and `docker` lines to copy and paste, our real output to compare with yours, and what to look for. It starts with creating the cluster and ends with `bash lab.sh check`.
 
 ## Labs
 
