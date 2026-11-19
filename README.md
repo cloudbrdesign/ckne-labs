@@ -40,6 +40,11 @@ The fourth is by hand: each lab's README has a **Walkthrough: copy, paste, compa
 | Module 3: Advanced traffic management | [Lab 3.2: Egress gateway for cluster exit traffic](labs/m03/3.2-egress-gateway/) |
 | Module 3: Advanced traffic management | [Lab 3.3: Cross-cluster service discovery and load balancing (two clusters)](labs/m03/3.3-clustermesh/) |
 | Module 3: Advanced traffic management | [Lab 3.4: Optimising LLM traffic: Gateway API Inference Extension](labs/m03/3.4-inference-gateway/) |
+| Module 4: Network security and policy | [Lab 4.1: NetworkPolicy: how selectors and rules combine](labs/m04/4.1-networkpolicy/) |
+| Module 4: Network security and policy | [Lab 4.2: Default deny, egress and DNS: locking a namespace down](labs/m04/4.2-default-deny/) |
+| Module 4: Network security and policy | [Lab 4.3: Node and pod encryption: WireGuard, proven with tcpdump](labs/m04/4.3-wireguard/) |
+| Module 4: Network security and policy | [Lab 4.4: TLS certificates for Gateway API with cert-manager](labs/m04/4.4-cert-manager-tls/) |
+| Module 4: Network security and policy | [Lab 4.5: Pod-level authentication and authorisation: Istio ambient mTLS + AuthorizationPolicy](labs/m04/4.5-istio-ambient-authz/) |
 
 ## What you need
 
