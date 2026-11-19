@@ -36,6 +36,10 @@ The fourth is by hand: each lab's README has a **Walkthrough: copy, paste, compa
 | Module 2: Service networking and DNS | [Lab 2.5: Endpoint availability: readiness and EndpointSlice conditions](labs/m02/2.5-endpointslices/) |
 | Module 2: Service networking and DNS | [Lab 2.6: Troubleshooting Service traffic](labs/m02/2.6-troubleshoot-services/) |
 | Module 2: Service networking and DNS | [Lab 2.7: Gateway API: Gateway and HTTPRoute](labs/m02/2.7-gateway-api/) |
+| Module 3: Advanced traffic management | [Lab 3.1: LoadBalancer on bare metal: LB IPAM, L2 announcements and BGP](labs/m03/3.1-lb-ipam-bgp/) |
+| Module 3: Advanced traffic management | [Lab 3.2: Egress gateway for cluster exit traffic](labs/m03/3.2-egress-gateway/) |
+| Module 3: Advanced traffic management | [Lab 3.3: Cross-cluster service discovery and load balancing (two clusters)](labs/m03/3.3-clustermesh/) |
+| Module 3: Advanced traffic management | [Lab 3.4: Optimising LLM traffic: Gateway API Inference Extension](labs/m03/3.4-inference-gateway/) |
 
 ## What you need
 

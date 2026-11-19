@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Shared lab framework for the CKNE labs. A lab defines:
 #   LAB_ID, LAB_TITLE, CLUSTER_PROFILE (plain | nft | nocni | cilium | full)
+#   optional KIND_WORKERS=N (default 2), CILIUM_EXTRA="--set feature.enabled=true ..." (extra Helm values for this lab's Cilium)
 #   step_1 .. step_N   (each starts with: title "what this step does")
 #   check_1 .. check_M (each calls: expect "description" <command...>)
 # and ends with:  lab_main "$@"
@@ -16,7 +17,7 @@ k(){ kubectl --context "$CTX" "$@"; }
 title(){ printf '\n%s== %s%s\n' "$B" "$*" "$N"; }
 note(){ printf '%s%s%s\n' "$D" "$*" "$N"; }
 run(){ printf '%s$ %s%s\n' "$Y" "$(printf '%s ' "$@" | sed 's/^k /kubectl /')" "$N"; "$@"; }
-runp(){ printf '%s$ %s%s\n' "$Y" "$1" "$N"; eval "${1//kubectl /k }"; }   # a pipeline, shown as typed: runp "kubectl get pods | grep web"
+runp(){ printf '%s$ %s%s\n' "$Y" "$1" "$N"; case "$1" in *"kubectl --context"*) eval "$1" ;; *) eval "${1//kubectl /k }" ;; esac; }   # a pipeline, shown as typed: runp "kubectl get pods | grep web"
 node_sh(){ docker exec "$1" sh -c "$2"; }            # "ssh" into a kind node: node_sh ckne-worker 'ip route'
 PASS=0; FAIL=0
 expect(){ local what=$1; shift; if "$@" >/dev/null 2>&1; then printf '%sPASS%s  %s\n' "$G" "$N" "$what"; PASS=$((PASS+1)); else printf '%sFAIL%s  %s\n' "$R" "$N" "$what"; FAIL=$((FAIL+1)); fi; }
@@ -33,7 +34,7 @@ kind_config(){ # $1 profile
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 networking: {disableDefaultCNI: $cni, kubeProxyMode: $kp}
-nodes: [{role: control-plane}, {role: worker}, {role: worker}]
+nodes: [{role: control-plane}$(for _ in $(seq 1 "${KIND_WORKERS:-2}"); do printf ', {role: worker}'; done)]
 K
 }
 install_cilium(){
@@ -41,7 +42,7 @@ install_cilium(){
   helm --kube-context "$CTX" upgrade --install cilium cilium/cilium --version "$CILIUM_VERSION" -n kube-system \
     --set kubeProxyReplacement=true --set k8sServiceHost="$CLUSTER-control-plane" --set k8sServicePort=6443 \
     --set cni.exclusive=false --set socketLB.hostNamespaceOnly=true --set hubble.relay.enabled=true \
-    --set gatewayAPI.enabled=true --wait --timeout 8m >/dev/null
+    --set gatewayAPI.enabled=true ${CILIUM_EXTRA:-} --wait --timeout 8m >/dev/null
 }
 install_istio_ambient(){
   helm repo add istio https://istio-release.storage.googleapis.com/charts >/dev/null 2>&1; helm repo update istio >/dev/null
@@ -59,6 +60,7 @@ cluster_up(){ # fresh cluster for this lab's profile
   need
   note "creating a fresh kind cluster '$CLUSTER' (profile: $CLUSTER_PROFILE) ..."
   kind delete cluster --name "$CLUSTER" >/dev/null 2>&1
+  declare -F lab_down >/dev/null && lab_down
   kind_config "$CLUSTER_PROFILE" | kind create cluster --name "$CLUSTER" --config - --wait 0s >/dev/null || { echo "kind could not create the cluster"; exit 1; }
   case "$CLUSTER_PROFILE" in
     cilium|full)
@@ -84,7 +86,7 @@ cluster_up(){ # fresh cluster for this lab's profile
   declare -F lab_setup >/dev/null && lab_setup
   return 0
 }
-cluster_down(){ kind delete cluster --name "$CLUSTER"; }
+cluster_down(){ declare -F lab_down >/dev/null && lab_down; kind delete cluster --name "$CLUSTER"; }
 
 lab_main(){
   case "${1:-}" in
