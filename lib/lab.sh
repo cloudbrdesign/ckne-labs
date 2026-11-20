@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Shared lab framework for the CKNE labs. A lab defines:
 #   LAB_ID, LAB_TITLE, CLUSTER_PROFILE (plain | nft | nocni | cilium | full)
-#   optional KIND_WORKERS=N (default 2), CILIUM_EXTRA="--set feature.enabled=true ..." (extra Helm values for this lab's Cilium)
+#   optional KIND_WORKERS=N (default 2), CILIUM_EXTRA="--set feature.enabled=true ..." (extra Helm values for this lab's Cilium),
+#   ISTIOD_EXTRA="-f values.yaml" (extra Helm values for istiod)
 #   step_1 .. step_N   (each starts with: title "what this step does")
 #   check_1 .. check_M (each calls: expect "description" <command...>)
 # and ends with:  lab_main "$@"
@@ -46,7 +47,7 @@ install_cilium(){
 }
 install_istio_ambient(){
   helm repo add istio https://istio-release.storage.googleapis.com/charts >/dev/null 2>&1; helm repo update istio >/dev/null
-  for c in "istio-base istio/base" "istiod istio/istiod --set profile=ambient" "istio-cni istio/cni --set profile=ambient" "ztunnel istio/ztunnel"; do
+  for c in "istio-base istio/base" "istiod istio/istiod --set profile=ambient ${ISTIOD_EXTRA:-}" "istio-cni istio/cni --set profile=ambient" "ztunnel istio/ztunnel"; do
     # shellcheck disable=SC2086
     helm --kube-context "$CTX" upgrade --install $c -n istio-system --create-namespace --version "$ISTIO_VERSION" --wait >/dev/null || return 1
   done
