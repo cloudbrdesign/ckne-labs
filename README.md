@@ -48,6 +48,9 @@ The fourth is by hand: each lab's README has a **Walkthrough: copy, paste, compa
 | Module 5: Observability | [Lab 5.1: Network health from metrics: Hubble and Prometheus](labs/m05/5.1-hubble-metrics/) |
 | Module 5: Observability | [Lab 5.2: End-to-end performance with tracing](labs/m05/5.2-tracing/) |
 | Module 5: Observability | [Lab 5.3: Auditing traffic with logs: flow logs and policy audit mode](labs/m05/5.3-flow-logs-audit/) |
+| Module 6: Exam practice | [Mock exam 1: 15 tasks, 2 hours](labs/m06/6.2-mock-exam-1/) |
+| Module 6: Exam practice | [Mock exam 2: 15 tasks, 2 hours](labs/m06/6.3-mock-exam-2/) |
+| Module 6: Exam practice | [Mock exam 3: 15 tasks, 2 hours](labs/m06/6.4-mock-exam-3/) |
 
 ## What you need
 
